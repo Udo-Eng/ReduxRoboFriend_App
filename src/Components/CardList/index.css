@@ -1,0 +1,10 @@
+.CardList{
+    display:flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+   
+}
+
+.Card{
+    flex : 1 1 auto;
+}
