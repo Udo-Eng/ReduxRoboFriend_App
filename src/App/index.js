@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import CardList from '../Components/CardList';
 import './index.css';
 import { robots } from '../robots';
-import SearchBox, { FilteredRobotsArray } from '../Components/SearchBox';
+import SearchBox from '../Components/SearchBox';
+import Button from '../Components/Button';
+import Scroll from '../Components/Scroll';
 
 
 
@@ -13,11 +15,12 @@ class App extends Component {
     super(props);
     this.state = {
       searchTerm: ' ',
+      robots: robots,
+      isLoading: false
     }
     this.onSearch = this.onSearch.bind(this);
+    this.fetchMoreRobots = this.fetchMoreRobots.bind(this);
   }
-
-
 
   onSearch(event) {
     this.setState({
@@ -25,8 +28,27 @@ class App extends Component {
     })
   }
 
+  fetchMoreRobots() {
+    const { robots } = this.state;
+    this.setState({
+      isLoading: true,
+    })
+    fetch('https://jsonplaceholder.typicode.com/users').then(response => response.json()).then(results => {
+      this.setState({
+        robots: robots.concat(results),
+        isLoading: false,
+      })
+    }).catch(err => {
+      return (
+        <div>
+          <p>There was an Error while trying to load new Robots </p>
+        </div>
+      )
+    })
+  }
+
   render() {
-    const { searchTerm } = this.state;
+    const { searchTerm, robots, isLoading } = this.state;
     const filteredrobots = robots.filter(robot =>
       robot.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
@@ -41,7 +63,16 @@ class App extends Component {
             onSearch={this.onSearch}
           />
         </div>
-        <CardList robots={filteredrobots} />
+        <Scroll className={'scrollValue'}>
+          <CardList robots={filteredrobots} />
+        </Scroll>
+        {
+          isLoading ? <div>
+            <button className={'button'}>Loading ...</button></div> :
+            <Button
+              fetchMoreRobots={this.fetchMoreRobots}
+            >Load more Robots</Button>
+        }
       </div>
     )
 

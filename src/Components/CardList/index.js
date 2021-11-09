@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Card from '../Card';
-import './index.css'
+import './index.css';
 
 
 class CardList extends Component {
@@ -13,7 +13,7 @@ class CardList extends Component {
                 {
                     robots.map(CardItem => {
                         return (
-                            <div >
+                            <div>
                                 <Card key={CardItem.id} CardItem={CardItem} />
                             </div>
                         )

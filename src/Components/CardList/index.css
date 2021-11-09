@@ -2,9 +2,10 @@
     display:flex;
     flex-direction:row;
     flex-wrap: wrap;
-   
+    justify-content: center;
+    align-content: center;
 }
 
-.Card{
-    flex : 1 1 auto;
-}
+/* .Card{
+    flex: 1 1  25vw;
+} */
